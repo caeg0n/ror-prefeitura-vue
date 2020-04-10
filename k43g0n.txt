@@ -1,0 +1,14 @@
+promises -> /home/k43g0n/Documents/rails/prefeitura_vue/app/javascript/mixins/messageMixins.js
+    ->/home/k43g0n/Documents/rails/prefeitura_vue/app/javascript/mensagens/mail_view.vue
+    ->changeBtnUpdateColor
+
+mixins ->/home/k43g0n/Documents/rails/prefeitura_vue/app/javascript/top_nav.vue
+
+Watch:->/home/k43g0n/Documents/rails/prefeitura_vue/app/javascript/top_nav.vue
+
+form prevent submit->/home/k43g0n/Documents/rails/prefeitura_vue/app/javascript/login/login_form.vue
+
+load-script-plus -> no mount() em /home/k43g0n/Documents/rails/prefeitura_vue/app/javascript/top_nav.vue
+
+asyncComputed -> /home/k43g0n/Documents/rails/prefeitura_vue/app/javascript/mensagens/mail_view.vue
+

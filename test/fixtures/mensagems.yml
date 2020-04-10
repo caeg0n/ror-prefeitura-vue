@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  site_id: 1
+  user_id: 1
+  mensagem: MyText
+  type_id: 1
+  source: MyString
+  destiny: MyString
+
+two:
+  site_id: 1
+  user_id: 1
+  mensagem: MyText
+  type_id: 1
+  source: MyString
+  destiny: MyString
