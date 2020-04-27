@@ -1,14 +1,14 @@
 <template>
     <div>
-        <template v-for="msg in user_messages">
+        <template v-for="msg in messages">
             <li>
-                <img src="" class="avatar" alt="Avatar">
+                <img :src="msg.img" class="avatar" alt="Avatar">
                 <div class="message_date">
-                    <h3 class="date text-error">21</h3>
-                    <p class="month">May</p>
+                    <h3 class="date text-error">{{msg.created_at | moment("D")}}</h3>
+                    <p class="month">{{msg.created_at | moment("MMM")}}</p>
                 </div>
                 <div class="message_wrapper">
-                    <h4 class="heading">{{processMessageFrom(msg.user_id)}}</h4>
+                    <h4 class="heading">{{msg.name}}</h4>
                     <blockquote class="message">{{msg.message}}</blockquote>
                     <br>
                     <p class="url">
@@ -27,43 +27,104 @@
     export default {
         mixins:[authMixins,userMixins],
         name: 'MesagemFuncionario',
-        props:['user_messages'],
         data: function () {
             return {
+                messages:[],
             }
         },
+
+        channels: {
+            UserChannel: {
+                connected() {
+                    console.log("mensagem_funcionario conected")
+                    this.getMessages()
+                },
+                rejected() {console.log("mensagem_funcionario rejeitado")},
+                disconnected() {console.log("mensagem_funcionario disconectado")},
+                received(data) {
+                    data['data'].forEach(e => {
+                        var user_id = e['user_id']
+                        var status = e['status']
+                        if (this.user.id == user_id){
+                            switch(status){
+                                case 1:
+                                    $.extend(e,{'name':'--MINHA--'})
+                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    this.addMessage(e)
+                                    break
+                                case 4:
+                                    $.extend(e,{'name':'--MINHA--'})
+                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    this.addMessage(e)
+                                    break
+                            }
+                        }else{
+                            switch(status){
+                                case 1:
+                                    var name = this.users[(this.users.findIndex(x => x.id == e["user_id"]))]["name"]
+                                    $.extend(e,{'name':name})
+                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    this.addMessage(e)
+                                    break
+                                case 3:
+                                    var name = this.users[(this.users.findIndex(x => x.id == e["user_id"]))]["name"]
+                                    $.extend(e,{'name':name})
+                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    this.addMessage(e)
+                                    break
+                            }
+                        } 
+                    })
+                }
+            }
+        }, 
 
         methods: {
 
-            processMessageFrom(m) {
-                var x = ""
-                this.getUserById(this.token,m).then(
-                    (resp) => {
-                        status = resp["data"]["status"]
-                        //if (status > 0){
-                            x = "jjjjjjj"
-                            //this.templateBtnUpdateIcon = "fa fa-check"
-                        //}else{
-                            //this.templateBtnUpdateIcon = "fa fa-share-square"
-                        //}
-                    }, 
-                    (error) => console.log(error.message)
-                )
-                return x
+            addMessage: function(msg){
+                if (this.messages.findIndex(x => x.id === msg.id)==-1){
+                    this.messages.push(msg)
+                }
+                this.messages.sort((a, b) => (a.id < b.id) ? 1 : -1)
             },
 
-            mounted() {
+            getMessages: function (){
+                this.$cable.perform({
+                    channel: 'UserChannel',
+                    action: 'send_message',
+                    data: {
+                        site_id: 1,
+                        user_id: this.user.id,
+                        mode:[1,3,4] 
+                    }
+                })
+            },
+
+            unsubscribe() {
+                this.$cable.unsubscribe('UserChannel')
             }
 
-        },
-
-        asyncComputed:{
-            
         },
 
         created() {
             this.authUser()
-        }
+            this.getUser(this.token)
+            this.getUsers(this.token)
+        },
+
+        mounted(){
+        },
+
+        watch:{
+
+            user:function(){
+                this.$cable.subscribe({
+                    channel: 'UserChannel',
+                    room: 'public'
+                })
+            }
+
+        },
 
     }
 </script>

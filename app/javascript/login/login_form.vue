@@ -1,8 +1,8 @@
 <template>
     <section class="login_content">
-        <form v-on:submit.prevent="thisLogin()">
+        <form v-on:submit.prevent="Login()">
             <h1>PREFEITURA | INTRANET</h1>
-             <div v-if="this.error==true">
+            <div v-if="this.error==true">
                 <login-status/>
             </div>
             <div>
@@ -18,7 +18,7 @@
             <div class="clearfix"></div>
             <div class="separator">
                 <!-- <p class="change_link">New to site?
-                  <a href="#signup" class="to_register"> Create Account </a>
+                <a href="#signup" class="to_register"> Create Account </a>
                 </p> -->
                 <div class="clearfix"></div>
                 <br />
@@ -47,8 +47,8 @@
         },
 
         methods: {
-            thisLogin: function(){
-                this.login(this.username,this.password)
+            Login: function(){
+                this.domainLogin(this.username,this.password)
             }
         },
 

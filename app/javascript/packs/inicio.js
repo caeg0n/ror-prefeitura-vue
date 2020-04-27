@@ -32,6 +32,12 @@ Vue.use(vueConfig, {
   API:'http://192.249.2.216:8080'
 })
 
+const moment = require('moment')
+require('moment/locale/pt-br')
+Vue.use(require('vue-moment'), {
+  moment
+})
+
 //Vue.loadScript("/build/js/custom.js?"+Math.random())
 
 

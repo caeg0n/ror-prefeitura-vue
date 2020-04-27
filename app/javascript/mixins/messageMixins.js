@@ -14,7 +14,7 @@
 //MESSAGES STATUS LIST
 // STATUS = 0 -> CRIADA
 // STATUS = 1 -> ENVIADA 
-
+// STATUS = 2 -> DELETADA PARA MIM
 
 const messageMixins = {
     data() {
@@ -54,6 +54,18 @@ const messageMixins = {
                 return p
             }         
         },
+
+        updateMessageStatus: function (token,id,status){
+            if (token != "") {
+                var post = {}
+                $.extend(post, {"message_id":id})
+                $.extend(post, {"status":status})
+                const p = this.$http.post(this.$config.API+'/update_message_status', post,{
+                    headers: { Authorization: 'Bearer ' + token },
+                })
+                return p
+            }
+        }
 
     }
 }

@@ -25,16 +25,15 @@ class InboxChannel < ApplicationCable::Channel
   end
 
   def send_user_messages(data)
-    #messages from user
-    messages = Message.where(user_id:data["user_id"],site_id:data["site_id"]).order("id DESC")
-    messages.each do |message|
-      ActionCable.server.broadcast 'inbox_channel', data: message
-    end
-    #messages to user
-    messages = Message.where(to:data["user_id"],site_id:data["site_id"],status:1).order("id DESC")
-    messages.each do |message|
-      ActionCable.server.broadcast 'inbox_channel', data: message
-    end
+    #binding.pry
+    mode = data['mode']
+    site_id = data['site_id']
+    user_id = data['user_id']
+    status = mode
+    messages_from_me = Message.where(site_id:site_id,user_id:user_id,:status => status).order("id DESC").to_a
+    messages_to_me = Message.where(site_id:site_id,to:user_id,:status => status).order("id DESC").to_a
+    resp = messages_from_me + messages_to_me
+    ActionCable.server.broadcast 'inbox_channel', data: resp 
   end
 
 end

@@ -25,6 +25,7 @@ const authMixins = {
         },
 
         login: function (user,pass) {
+            console.log(user,pass)
             this.$http.get(this.$config.API+'/entrar', {
                 headers: { Authorization: "Basic " + btoa(user + ":" + pass) },
             }).then(resp => {  
@@ -36,8 +37,7 @@ const authMixins = {
                     localStorage.removeItem('token')
                     this.loged_in = false
                 }
-            })
-            .catch(error => {          
+            }).catch(error => {          
                 console.log(error)       
             })
         },
@@ -59,6 +59,23 @@ const authMixins = {
             //    console.log(error)       
             //})
         },
+
+        domainLogin: function(user,pass){
+            this.$http.get(this.$config.API+'/domain_entrar', {
+                headers: { Authorization: "Basic " + btoa(user + ":" + pass) },
+            }).then(resp => {
+                var data = resp["data"]
+                var id = data["id"]
+                if (id == 1){
+                    var username = data["resp"]["email"]
+                    var password = data["resp"]["password"]
+                    
+                }
+                this.login(username,password)
+            }).catch(error => {          
+                console.log(error)       
+            })
+        }
     },
 }
 export default authMixins

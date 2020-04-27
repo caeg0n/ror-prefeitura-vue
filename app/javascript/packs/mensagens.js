@@ -12,7 +12,6 @@ import SideBarMenu from '../sidebar_menu.vue'
 import TopNav from '../top_nav.vue'
 import vueConfig from 'vue-config'
 
-
 Vue.use(TurbolinksAdapter)
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
@@ -21,12 +20,18 @@ Vue.use(AsyncComputed)
 Vue.use(ActionCableVue, {
   debug: true,
   debugLevel: 'error',
-  connectionUrl: 'ws://localhost:5000/api/cable',
+  connectionUrl: 'ws://192.249.2.216:5000/api/cable',
   connectImmediately: false,
 })
 Vue.use(vueConfig, {
   saveImagePath: '/',
   API:'http://192.249.2.216:8080'
+})
+
+const moment = require('moment')
+require('moment/locale/pt-br')
+Vue.use(require('vue-moment'), {
+  moment
 })
 
 //Vue.loadScript("/build/js/custom.js?"+Math.random())

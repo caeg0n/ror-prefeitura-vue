@@ -59,7 +59,7 @@
                                             <!-- <mensagem-automatica v-for="msg in domain_messages" :msg="msg"></mensagem-automatica> -->
                                         </div>
                                         <div class="mensagem_funcionario">
-                                            <mensagem-funcionario v-bind:user_messages="user_messages"></mensagem-funcionario>
+                                            <mensagem-funcionario></mensagem-funcionario>
                                         </div>
                                     </ul>
                                     <!-- end recent activity -->
@@ -89,29 +89,19 @@
             return {
                 avatarPic:"/production/images/user-placeholder.png",
                 domain_messages:[],
-                user_messages:[]
             }
         },
 
-        channels: {
-            DomainChannel: {
-                connected() {this.sendMessage('DomainChannel')},
-                rejected() {},
-                disconnected() {},
-                received(data) {
-                    this.domain_messages.push(data["data"])
-                }
-            },
-
-            UserChannel: {
-                connected() {this.sendMessage('UserChannel')},
-                rejected() {},
-                disconnected() {},
-                received(data) {
-                    this.user_messages.push(data["data"])
-                }
-            }
-        },
+        // channels: {
+        //     DomainChannel: {
+        //         connected() {this.sendMessage('DomainChannel')},
+        //         rejected() {},
+        //         disconnected() {},
+        //         received(data) {
+        //             this.domain_messages.push(data["data"])
+        //         }
+        //     },
+        // },
         
         methods: {
 
@@ -135,14 +125,6 @@
                 })
             },
 
-            sendMessage: function(channel) {
-                this.domain_messages = []
-                this.$cable.perform({
-                    channel: channel,
-                    action: 'send_message'
-                })
-            },
-            
             saveMessage: function() {
                 this.domain_messages = []
                 var message = {from_user:"",to_user:"",message:"",type_id:""}
@@ -172,16 +154,11 @@
 
         mounted() {
             
-            this.$cable.subscribe({
-                channel: 'DomainChannel',
-                room: 'public'
-            }),
+            // this.$cable.subscribe({
+            //     channel: 'DomainChannel',
+            //     room: 'public'
+            // }),
 
-            this.$cable.subscribe({
-                channel: 'UserChannel',
-                room: 'public'
-            }),
-            
             this.$bus.$on("loadAvatar", () => {
                 this.avatarPic = "/"+this.user.id+".png?"+new Date().getTime()
             })

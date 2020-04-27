@@ -5,16 +5,16 @@
                 <div class="btn-group">
                     <button v-on:click="sendThisMessage" :class="templateBtnUpdate" type="button"><i :class="templateBtnUpdateIcon"></i>
                         Enviar</button>
-                    <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip"
-                        data-original-title="Forward"><i class="fa fa-share"></i></button>
-                    <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip"
-                        data-original-title="Print"><i class="fa fa-print"></i></button>
+                    <!-- <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip"
+                        data-original-title="Forward"><i class="fa fa-share"></i></button> -->
+                    <!-- <button class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip"
+                        data-original-title="Print"><i class="fa fa-print"></i></button> -->
                     <button v-on:click="delMessage" class="btn btn-sm btn-default" type="button" data-placement="top" data-toggle="tooltip"
                         data-original-title="Trash"><i class="fa fa-trash-o"></i></button>
                 </div>
             </div>
             <div class="col-md-4 text-right">
-                <p class="date"> 8:02 PM 12 FEB 2014</p>
+                <p class="date"> {{message.created_at | moment("dddd, D MMMM YYYY, HH:mm")}}</p>
             </div>
             <div class="col-md-12">
                 <h4> {{message.title}}</h4>
@@ -23,7 +23,7 @@
         <div class="sender-info">
             <div class="row">
                 <div class="col-md-12">
-                    <strong>{{message.user_id}}</strong>
+                    <strong>{{message.name}}</strong>
                     <!-- <span>(jon.doe@gmail.com)</span> --> para
                     <strong>{{getMessageTo}}</strong>
                     <a class="sender-dropdown"><i class="fa fa-chevron-down"></i></a>
@@ -100,13 +100,46 @@
         
         methods: {
 
+            unsubscribe() {
+                this.$cable.unsubscribe('InboxChannel')
+            },
+
+            delMSG(id,status){
+                this.updateMessageStatus(this.token,id,status)
+                this.$bus.$emit("updateMailList",id)
+            },
+
+            updateUserMessages: function (){
+                this.$cable.subscribe({channel: 'UserChannel',room: 'public'})
+                this.$cable.perform({
+                    channel: 'InboxChannel',
+                    action: 'send_user_messages',
+                    data: {
+                        site_id: 1,
+                        user_id: this.user.id,
+                        mode:[0,1,3,4] 
+                    }
+                })
+                this.$cable.perform({
+                    channel: 'UserChannel',
+                    action: 'send_message',
+                    data: {
+                        site_id: 1,
+                        user_id: this.user.id,
+                        mode:[1,3,4] 
+                    }
+                })
+            },
+
             sendThisMessage: function(){
                 this.sendMessage(this.token,this.message).then(
                     (response) => {
-                        var id =  response["data"][0]["id"]
+                        var id = response["data"][0]["id"]
                         if (id == 1){
                             this.templateBtnUpdate = "btn btn-sm btn-success"
                             this.templateBtnUpdateIcon = "fa fa-check"
+                            this.message.status = 1
+                            this.updateUserMessages()
                         }
                     }
                 )
@@ -130,10 +163,30 @@
             },
 
             delMessage:function(){
-                this.dropMessage(this.token,this.message.id).then(
-                    (resp) => {this.$bus.$emit("updateMailList",this.message.id)}, 
-                    (error) => console.log(error.message)
-                )
+                var user_id = this.message.user_id
+                var status = this.message.status
+                if (this.user.id == user_id){
+                    switch(status){
+                        case 0:
+                            this.delMSG(this.delMSG(this.message.id,2))
+                            break
+                        case 1:
+                            this.delMSG(this.delMSG(this.message.id,3))
+                            break
+                        case 4:
+                            this.delMSG(this.delMSG(this.message.id,5))
+                            break                    }
+                }else{
+                    switch(status){
+                        case 1:
+                            this.delMSG(this.delMSG(this.message.id,4))
+                            break
+                        case 3:
+                            this.delMSG(this.delMSG(this.message.id,5))
+                            break
+
+                    }
+                }                             
             },
         },
 
@@ -161,6 +214,8 @@
 
         created() {
             this.authUser()
+            this.getUser(this.token)
+            this.getUsers(this.token)
         }
 
     }
