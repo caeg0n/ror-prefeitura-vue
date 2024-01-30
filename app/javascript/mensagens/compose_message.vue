@@ -103,14 +103,14 @@
 <script>
     import authMixins from '../mixins/authMixins'
     import userMixins from '../mixins/userMixins'
+    import strMixins from '../mixins/strMixins'
     export default {
-        mixins:[userMixins,authMixins],
+        mixins:[userMixins,authMixins,strMixins],
         data: function () {
             return {
                 template_title:'',
                 template_to:'',
                 template_message:'',
-
                 message:{site_id:"",from_user:"",title:"",to_user:"",message:"",type_id:"",status:0}
             }
         },

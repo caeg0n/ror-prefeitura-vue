@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   mount ActionCable.server => '/api/cable'
+  root :to => 'login#index'
   get 'login/index'
   get 'mensagens/index'
   get 'calendario/index'

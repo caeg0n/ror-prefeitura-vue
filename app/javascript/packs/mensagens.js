@@ -10,23 +10,21 @@ import MailList from '../mensagens/mail_list.vue'
 import ProfileInfo from '../profile_info.vue'
 import SideBarMenu from '../sidebar_menu.vue'
 import TopNav from '../top_nav.vue'
-import vueConfig from 'vue-config'
+import VueConfig from 'vue-configuration'
+import AppConfig from '../config.js'
 
 Vue.use(TurbolinksAdapter)
 Vue.prototype.$http = axios
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.use(LoadScript)
 Vue.use(AsyncComputed)
 Vue.use(ActionCableVue, {
   debug: true,
   debugLevel: 'error',
-  connectionUrl: 'ws://192.249.2.216:5000/api/cable',
+  connectionUrl: AppConfig[process.env.NODE_ENV]['ACTIONCABLE'],
   connectImmediately: false,
 })
-Vue.use(vueConfig, {
-  saveImagePath: '/',
-  API:'http://192.249.2.216:8080'
-})
+Vue.use(VueConfig, {config: AppConfig})
 
 const moment = require('moment')
 require('moment/locale/pt-br')

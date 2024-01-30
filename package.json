@@ -5,7 +5,7 @@
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "4.2.2",
+    "@rails/webpacker": "5.1.1",
     "actioncable": "^5.2.4-1",
     "actioncable-modules": "^5.2.2-1",
     "actioncable-vue": "^1.6.2",
@@ -14,8 +14,9 @@
     "vue": "^2.6.11",
     "vue-async-computed": "^3.8.2",
     "vue-config": "^1.0.0",
+    "vue-configuration": "^1.0.3",
     "vue-load-script-plus": "^1.6.5",
-    "vue-loader": "^15.9.0",
+    "vue-loader": "^15.9.2",
     "vue-moment": "^4.1.0",
     "vue-template-compiler": "^2.6.11",
     "vue-turbolinks": "^2.1.0"
@@ -23,6 +24,6 @@
   "version": "0.1.0",
   "devDependencies": {
     "vue-plugin-load-script": "^1.2.0",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   }
 }

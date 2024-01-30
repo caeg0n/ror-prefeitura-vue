@@ -13,33 +13,30 @@ import UserProfile from '../inicio/user_profile.vue'
 import MensagemAutomatica from '../inicio/mensagem_automatica.vue'
 import MensagemFuncionario from '../inicio/mensagem_funcionario.vue'
 import ModalLg from '../inicio/modal_lg.vue'
-import vueConfig from 'vue-config'
+import VueConfig from 'vue-configuration'
+import AppConfig from '../config.js'
 
 Vue.prototype.$http = axios
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.use(LoadScript)
 Vue.use(VueLoadScript)
 Vue.use(TurbolinksAdapter)
 Vue.use(AsyncComputed)
+Vue.use(VueConfig, {
+  config: AppConfig,
+})
 Vue.use(ActionCableVue, {
   debug: true,
   debugLevel: 'error',
-  connectionUrl: 'ws://192.249.2.216:5000/api/cable',
+  connectionUrl: AppConfig[process.env.NODE_ENV]['ACTIONCABLE'],
   connectImmediately: true,
-})
-Vue.use(vueConfig, {
-  saveImagePath: '/',
-  API:'http://192.249.2.216:8080'
 })
 
 const moment = require('moment')
 require('moment/locale/pt-br')
-Vue.use(require('vue-moment'), {
-  moment
-})
+Vue.use(require('vue-moment'), {moment})
 
 //Vue.loadScript("/build/js/custom.js?"+Math.random())
-
 
 document.addEventListener('turbolinks:load', () => {
 

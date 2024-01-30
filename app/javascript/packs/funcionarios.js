@@ -8,21 +8,17 @@ import MensagemError from '../funcionarios/mensagem_error.vue'
 import ProfileInfo from '../profile_info.vue'
 import SideBarMenu from '../sidebar_menu.vue'
 import TopNav from '../top_nav.vue'
-import vueConfig from 'vue-config'
+import VueConfig from 'vue-configuration'
+import AppConfig from '../config.js'
 
 
 Vue.use(TurbolinksAdapter)
 Vue.prototype.$http = axios
-Vue.config.productionTip = false
+Vue.config.productionTip = true
 Vue.use(LoadScript)
-Vue.use(vueConfig, {
-  saveImagePath: '/',
-  API:'http://192.249.2.216:8080'
-})
-
 Vue.loadScript("/vendors/parsleyjs/dist/parsley.min.js")
 Vue.loadScript("/vendors/parsleyjs/dist/i18n/pt-br.js")
-//Vue.loadScript("/build/js/custom.js?"+Math.random())
+Vue.use(VueConfig, {config: AppConfig})
 
 document.addEventListener('turbolinks:load', () => {
 

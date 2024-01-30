@@ -6,17 +6,16 @@ import ProfileDetails from '../contatos/profile_details.vue'
 import ProfileInfo from '../profile_info.vue'
 import SideBarMenu from '../sidebar_menu.vue'
 import TopNav from '../top_nav.vue'
-import vueConfig from 'vue-config'
+import VueConfig from 'vue-configuration'
+import AppConfig from '../config.js'
 
 Vue.use(LoadScript)
 Vue.use(TurbolinksAdapter)
 Vue.prototype.$http = axios
-Vue.config.productionTip = false
-Vue.use(vueConfig, {
-  saveImagePath: '/',
-  API:'http://192.249.2.216:8080'
+Vue.config.productionTip = true
+Vue.use(VueConfig, {
+  config: AppConfig
 })
-//Vue.loadScript("/build/js/custom.js?"+Math.random())
 
 document.addEventListener('turbolinks:load', () => {
 

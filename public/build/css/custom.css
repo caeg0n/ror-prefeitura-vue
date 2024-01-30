@@ -1694,7 +1694,9 @@ h2 {
 
 .x_content h4 {
   font-size: 16px;
-  font-weight: 500; }
+  font-weight: 500;
+  text-transform: uppercase;
+}
 
 legend {
   padding-bottom: 7px; }
@@ -1709,7 +1711,9 @@ legend {
 .profile_details .profile_view {
   display: inline-block;
   padding: 10px 0 0;
-  background: #fff; }
+  background: #fff;
+  font-size: xx-small;
+}
 
 .profile_details .profile_view .divider {
   border-top: 1px solid #e5e5e5;
@@ -2262,7 +2266,9 @@ span.right {
 /** top tiles  */
 .tile_count {
   margin-bottom: 20px;
-  margin-top: 20px; }
+  margin-top: 20px;
+  min-inline-size: -webkit-fill-available;
+}
 
 .tile_count .tile_stats_count {
   border-bottom: 1px solid #D9DEE4;

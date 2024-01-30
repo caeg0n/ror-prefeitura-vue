@@ -1,7 +1,7 @@
 <template>
     <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
         <div class="menu_section">
-            <h3>General</h3>
+            <!-- <h3>General</h3> -->
             <ul class="nav side-menu">
                 <li><a><i class="fa fa-home"></i> Inicio <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -9,7 +9,7 @@
                         <li><a href="/contatos/index">Contatos</a></li>
                         <li><a href="/funcionarios/index">Funcionarios</a></li>
                         <li><a href="/mensagens/index">Mensagens</a></li>
-                        <li><a href="/calendario/index">Calendario</a></li>
+                        <!-- <li><a href="/calendario/index">Calendario</a></li> -->
                     </ul>
                 </li>
                 <!-- <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
@@ -58,7 +58,7 @@
                 </li> -->
             </ul>
         </div>
-        <div class="menu_section">
+        <!-- <div class="menu_section"> -->
             <!-- <h3>Live On</h3>
             <ul class="nav side-menu">
                 <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
@@ -100,7 +100,7 @@
                 <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span
                             class="label label-success pull-right">Coming Soon</span></a></li>
             </ul> -->
-        </div>
+        <!-- </div> -->
     </div>
 </template>
 <script>

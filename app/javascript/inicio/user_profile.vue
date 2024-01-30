@@ -20,7 +20,7 @@
                                     title="Change the avatar" width="220px" height="220px">
                             </div>
                         </div>
-                        <h3>{{this.user.name}}</h3>
+                        <h3>{{processUserName(this.user.name)}}</h3>
                         <ul class="list-unstyled user_data">
                             <li><i class="fa fa-map-marker user-profile-icon"></i> {{this.user.info}}</li>
                             <li>
@@ -79,8 +79,9 @@
     import MensagemAutomatica from 'inicio/mensagem_automatica.vue'
     import MensagemFuncionario from 'inicio/mensagem_funcionario.vue'
     import userMixins from '../mixins/userMixins'
+    import strMixins from '../mixins/strMixins'
     export default {
-        mixins:[userMixins,authMixins],
+        mixins:[userMixins,authMixins,strMixins],
         components: {
             MensagemAutomatica,
             MensagemFuncionario
@@ -102,21 +103,31 @@
         //         }
         //     },
         // },
+
         
         methods: {
 
+            processUserName: function (name) {
+                if (name!='undefined'){
+                    return this.capitalLetter(name)
+                }else{
+                    return name
+                }
+            },
+
             sendAvatar: function(){
+                this.$bus.$emit("enableModal")
                 this.$bus.$emit("sendAvatar",this.avatarPic)
             },
 
             getAvatar: function(){
                 var t = this
                 var cont = 0
-                var url = this.avatarPic = "/"+this.user.id+".png"+"?"+(new Date()).getTime()
+                var url = this.avatarPic = "/imagens/"+this.user.id+".png"+"?"+(new Date()).getTime()
                 $.get(url)
                 .done(function() {
                     var refreshIntervalId = setInterval(function(){
-                    t.avatarPic = "/"+t.user.id+".png"+"?"+(new Date()).getTime()
+                    t.avatarPic = "/imagens/"+t.user.id+".png"+"?"+(new Date()).getTime()
                     cont = cont + 1
                     if (cont > 5){clearInterval(refreshIntervalId)}
                 }, 500) 
@@ -153,16 +164,14 @@
         },
 
         mounted() {
-            
             // this.$cable.subscribe({
             //     channel: 'DomainChannel',
             //     room: 'public'
             // }),
 
             this.$bus.$on("loadAvatar", () => {
-                this.avatarPic = "/"+this.user.id+".png?"+new Date().getTime()
+                this.avatarPic = "/imagens/"+this.user.id+".png?"+new Date().getTime()
             })
-
         },
 
         created() {

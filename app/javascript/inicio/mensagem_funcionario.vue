@@ -24,8 +24,9 @@
 <script>
     import authMixins from '../mixins/authMixins'
     import userMixins from '../mixins/userMixins'
+    import strMixins from '../mixins/strMixins'
     export default {
-        mixins:[authMixins,userMixins],
+        mixins:[authMixins,userMixins,strMixins],
         name: 'MesagemFuncionario',
         data: function () {
             return {
@@ -48,13 +49,15 @@
                         if (this.user.id == user_id){
                             switch(status){
                                 case 1:
-                                    $.extend(e,{'name':'--MINHA--'})
-                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    var name = this.users[(this.users.findIndex(x => x.id == e["to"]))]["name"]
+                                    $.extend(e,{'name':'MINHA > '+name})
+                                    $.extend(e,{'img':'/imagens/'+e['user_id']+".png"})
                                     this.addMessage(e)
                                     break
                                 case 4:
-                                    $.extend(e,{'name':'--MINHA--'})
-                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    var name = this.users[(this.users.findIndex(x => x.id == e["to"]))]["name"]
+                                    $.extend(e,{'name':'MINHA > '+name})
+                                    $.extend(e,{'img':'/imagens/'+e['user_id']+".png"})
                                     this.addMessage(e)
                                     break
                             }
@@ -63,13 +66,13 @@
                                 case 1:
                                     var name = this.users[(this.users.findIndex(x => x.id == e["user_id"]))]["name"]
                                     $.extend(e,{'name':name})
-                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    $.extend(e,{'img':'/imagens/'+e['user_id']+".png"})
                                     this.addMessage(e)
                                     break
                                 case 3:
                                     var name = this.users[(this.users.findIndex(x => x.id == e["user_id"]))]["name"]
                                     $.extend(e,{'name':name})
-                                    $.extend(e,{'img':this.$config.saveImagePath+e['user_id']+".png"})
+                                    $.extend(e,{'img':'/imagens/'+e['user_id']+".png"})
                                     this.addMessage(e)
                                     break
                             }

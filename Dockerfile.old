@@ -1,0 +1,51 @@
+FROM ruby:2.6.2
+ENV RAILS_ROOT /prefeitura_vue
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN apt-get update -qq && apt-get install -y build-essential libpq-dev nodejs ghostscript
+#RUN mkdir -p /app
+#RUN mkdir -p /usr/local/nvm
+WORKDIR /app
+RUN curl -sL https://deb.nodesource.com/setup_11.x | bash -
+RUN apt-get install -y nodejs
+RUN node -v
+RUN npm -v
+
+ENV RAILS_ENV='production'
+SECRET_KEY_BASE='0350a4273a47e627aba2e9166d899eb89a10a0b4fbfabdfd5989689d76eb9b9fd1f3fbbe8f7c86985a957131665acb50ff0f1909e93573f3f46b5f5b5f6970ec'
+#ENV RAILS_SERVE_STATIC_FILES=true
+#ENV RAILS_LOG_TO_STDOUT=true
+#COPY . ./
+
+COPY Gemfile Gemfile
+COPY Gemfile.lock Gemfile.lock 
+RUN bundle install --jobs 20 --retry 5 --without development test
+
+
+COPY package.json package.json
+COPY yarn.lock yarn.lock
+RUN yarn install --check-files
+
+COPY . .
+
+
+#RUN RAILS_ENV=production rake db:create db:migrate
+#RUN rake secret
+#RUN export 
+
+#RUN RAILS_ENV=production bin/rails assets:precompile
+#COPY Gemfile package.json yarn.lock ./
+#COPY Rakefile Gemfile package.json yarn.lock Gemfile.lock ./
+#RUN gem install bundler -v 1.17.2
+#RUN gem install foreman -v 0.85.0
+#RUN bundle install --verbose --jobs 20 --retry 5
+#RUN npm install -g yarn
+#RUN yarn install --check-files
+
+#RUN rails db:migrate
+#RUN bundle exec rake assets:precompile
+#VOLUME ~/db /app/db
+
+
+EXPOSE 3000
+CMD ["bundle", "exec", "rails", "server","-b", "0.0.0.0"]
+

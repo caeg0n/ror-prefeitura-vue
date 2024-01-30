@@ -6,7 +6,7 @@
                     <div class="col-sm-12">
                         <h4 class="brief"><i>{{user.info}}</i></h4>
                         <div class="left col-md-7 col-sm-7">
-                            <h2>{{user.name}}</h2>
+                            <h2>{{user.name.toUpperCase()}}</h2>
                             <p><strong>{{user.email}}</strong></p>
                             <ul class="list-unstyled">
                                 <!-- <li><i class="fa fa-building"></i> Local: {{user.local}} </li> -->
@@ -44,28 +44,26 @@
 <script>
     import userMixins from '../mixins/userMixins'
     import authMixins from '../mixins/authMixins'
+    import strMixins from '../mixins/strMixins'
 
     export default {
-        mixins: [userMixins, authMixins],
+        mixins: [userMixins, authMixins,strMixins],
         data: function () {
             return {
-                users: []
+                //users: []
             }
         },
 
         computed: {
-            
-            
         },
         
         methods: {
             avatarPic: function (id) {
-                return "/"+id+"_128x128.png?"+new Date().getTime()
+                return "/imagens/"+id+"_128x128.png?"+new Date().getTime()
             }
         },
         
         mounted () {
-            
         },
 
         created() {

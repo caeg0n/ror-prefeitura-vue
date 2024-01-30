@@ -21,8 +21,9 @@
 <script>
     import authMixins from '../mixins/authMixins'
     import userMixins from '../mixins/userMixins'
+    import strMixins from '../mixins/strMixins'
     export default {
-        mixins:[userMixins,authMixins],
+        mixins:[userMixins,authMixins,strMixins],
         data: function () {
             return {
                 messages:[]

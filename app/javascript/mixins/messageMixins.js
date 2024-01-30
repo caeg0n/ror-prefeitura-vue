@@ -24,7 +24,7 @@ const messageMixins = {
 
     methods: {
         getMessage: function (token,id) {
-            const p = this.$http.get(this.$config.API+'/get_message', {
+            const p = this.$http.get(this.$config.get(process.env.NODE_ENV+'.API')+'/get_message', {
                 headers: { Authorization: 'Bearer ' + token },
                 params: {
                     id: id
@@ -37,7 +37,7 @@ const messageMixins = {
         sendMessage: function(token,message){
             var post = {}
             $.extend(post, {"message_id":message.id,"status":1})
-            const p = this.$http.post(this.$config.API+'/update_message_status', post,{
+            const p = this.$http.post(this.$config.get(process.env.NODE_ENV+'.API')+'/update_message_status', post,{
                 headers: { Authorization: 'Bearer ' + token },
             })
             return p
@@ -48,7 +48,7 @@ const messageMixins = {
             if (token != "") {
                 var post = {}
                 $.extend(post, {"message_id":id})
-                const p = this.$http.post(this.$config.API+'/drop_message', post,{
+                const p = this.$http.post(this.$config.get(process.env.NODE_ENV+'.API')+'/drop_message', post,{
                     headers: { Authorization: 'Bearer ' + token },
                 })
                 return p
@@ -60,7 +60,7 @@ const messageMixins = {
                 var post = {}
                 $.extend(post, {"message_id":id})
                 $.extend(post, {"status":status})
-                const p = this.$http.post(this.$config.API+'/update_message_status', post,{
+                const p = this.$http.post(this.$config.get(process.env.NODE_ENV+'.API')+'/update_message_status', post,{
                     headers: { Authorization: 'Bearer ' + token },
                 })
                 return p

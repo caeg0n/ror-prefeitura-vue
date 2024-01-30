@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-6 col-sm-6  ">
+    <div class="col-md-6 col-sm-6" v-show="isShow">
         <div class="x_panel">
             <div class="x_content">
                 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="upload_modal">
@@ -7,7 +7,7 @@
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h4 class="modal-title" id="myModalLabel">Alterar Foto do Perfil</h4>
-                                <button type="button" class="close" data-dismiss="modal"><span
+                                <button v-on:click="disableModal()" type="button" class="close" data-dismiss="modal"><span
                                         aria-hidden="true">×</span>
                                 </button>
                             </div>
@@ -17,7 +17,7 @@
                                     <div class="row">
                                         <div class="col-md-9">
                                             <div class="img-container">
-                                                <img id="image" src="blob:http://localhost:5000/89bc0f2b-638e-45cb-b0e8-0723da53f954" alt="Picture">
+                                                <img id="image" src="" alt="Picture">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
@@ -47,7 +47,7 @@
                                                     </span>
                                                 </button>
                                             </div>
-                                            <button type="button" class="btn btn-secondary"
+                                            <button v-on:click="disableModal()" type="button" class="btn btn-secondary"
                                                 data-dismiss="modal">Cancelar</button>
                                             <!-- Show the cropped image in modal -->
                                             <div class="modal fade docs-cropped" id="getCroppedCanvasModal"
@@ -90,23 +90,30 @@
         mixins: [userMixins, authMixins, imageMixins],
         data: function () {
             return {
-                avatarPicSrc:""
+                avatarPicSrc:"",
+                isShow : false,
             }
         },
 
         methods: {
-            
+
+            disableModal: function(){
+                this.isShow = false
+            },
+
             fileUpload: function () {
                 var t = this
                 var cont = 0
                 var img = document.getElementById("download").getAttribute("href")
                 document.getElementById("download").removeAttribute("href")
                 var data = img
-                this.imageSavePath = "/home/k43g0n/Documents/rails/prefeitura_vue/public"
+                //this.imageSavePath = "/home/k43g0n/Documents/rails/prefeitura_vue/public"
+                this.imageSavePath = this.$config.get(process.env.NODE_ENV+'.SAVEIMAGEPATH')
                 this.imageFileName = this.user.id
                 this.saveBase64UrlImage(this.token, data)
                 $('#getCroppedCanvasModal').modal('hide')
                 $('#upload_modal').modal('hide')
+                this.isShow = false
                 t.$bus.$emit("loadAvatar")
                 var refreshIntervalId = setInterval(function(){
                     t.$bus.$emit("loadAvatar")
@@ -117,6 +124,7 @@
         },
 
         mounted() {
+            this.$bus.$on("enableModal", () => {this.isShow = true})
         },
 
         created() {

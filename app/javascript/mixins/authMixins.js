@@ -25,8 +25,7 @@ const authMixins = {
         },
 
         login: function (user,pass) {
-            console.log(user,pass)
-            this.$http.get(this.$config.API+'/entrar', {
+            this.$http.get(this.$config.get(process.env.NODE_ENV+'.API')+'/entrar', {
                 headers: { Authorization: "Basic " + btoa(user + ":" + pass) },
             }).then(resp => {  
                 this.token = resp["data"][0]["token"]
@@ -61,7 +60,7 @@ const authMixins = {
         },
 
         domainLogin: function(user,pass){
-            this.$http.get(this.$config.API+'/domain_entrar', {
+            this.$http.get(this.$config.get(process.env.NODE_ENV+'.API')+'/domain_entrar', {
                 headers: { Authorization: "Basic " + btoa(user + ":" + pass) },
             }).then(resp => {
                 var data = resp["data"]

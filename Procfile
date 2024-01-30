@@ -1,2 +1,3 @@
-web: rails s -b 0.0.0.0
+puts "kkkkkk"
+web: rails s
 webpack: bin/webpack-dev-server

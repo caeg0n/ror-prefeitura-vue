@@ -11,7 +11,7 @@ const userMixins = {
 
         countUsers: function (token) {
             if (token != "") {
-                this.$http.get(this.$config.API+'/get_number_of_users', {
+                this.$http.get(this.$config.get(process.env.NODE_ENV+'.API')+'/get_number_of_users', {
                     headers: { Authorization: 'Bearer ' + token },
                 }).then(resp => {
                     this.countUsersResp = resp
@@ -23,7 +23,7 @@ const userMixins = {
 
         getUser: function (token) {
             if (token != "") {
-                this.$http.get(this.$config.API+'/get_user', {
+                this.$http.get(this.$config.get(process.env.NODE_ENV+'.API')+'/get_user', {
                     headers: { Authorization: 'Bearer ' + token },
                 }).then(resp => {
                     this.user = resp["data"]
@@ -36,7 +36,7 @@ const userMixins = {
         },
 
         getUserById: function (token,id) {
-            const p = this.$http.get(this.$config.API+'/get_user_by_id?id='+id, {
+            const p = this.$http.get(this.$config.get(process.env.NODE_ENV+'.API')+'/get_user_by_id?id='+id, {
                 headers: { Authorization: 'Bearer ' + token },
             })
             return p
@@ -44,12 +44,11 @@ const userMixins = {
 
         getUsers: function (token) {
             if (token != "") {
-                this.$http.get(this.$config.API+'/get_users', {
+                this.$http.get(this.$config.get(process.env.NODE_ENV+'.API')+'/get_users', {
                     headers: { Authorization: 'Bearer ' + token },
                 }).then(resp => {
-                    this.users = resp["data"]
-                })
-                    .catch(error => {          
+                    this.users = resp["data"].sort(this.mySort('name','asc'))
+                }).catch(error => {          
                     console.log(error)       
                 })
             }else{
@@ -58,7 +57,7 @@ const userMixins = {
         },
 
         createUser: function (token,post){
-            const p = this.$http.post(this.$config.API+'/new_user', post,{
+            const p = this.$http.post(this.$config.get(process.env.NODE_ENV+'.API')+'/new_user', post,{
                 headers: { Authorization: 'Bearer ' + token },
             })
             return p

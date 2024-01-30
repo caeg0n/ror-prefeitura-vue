@@ -86,9 +86,10 @@
 <script>
     import authMixins from '../mixins/authMixins'
     import userMixins from '../mixins/userMixins'
+    import strMixins from '../mixins/strMixins'
     import messageMixins from '../mixins/messageMixins'
     export default {
-        mixins:[authMixins,userMixins,messageMixins],
+        mixins:[authMixins,userMixins,strMixins,messageMixins],
         data: function () {
             return {
                 templateBtnUpdate:"btn btn-sm btn-primary",

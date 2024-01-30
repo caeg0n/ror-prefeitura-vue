@@ -12,6 +12,12 @@ test:
   <<: *default
   database: db/test.sqlite3
 
+#local production
+# production:
+#   <<: *default
+#   database: <%= Rails.application.config.sql_path_prod %>
+
+#docker production
 production:
   <<: *default
-  database: db/production.sqlite3
+  database: <%= Rails.application.config.sql_path_docker %>

@@ -15,7 +15,7 @@ const imageMixins = {
                 $.extend(post, {"base64Data":base64Data})
                 $.extend(post, {"path":this.imageSavePath})
                 $.extend(post, {"imageFileName":this.imageFileName})                  
-                t.$http.post(this.$config.API+'/save_image', post, {
+                t.$http.post(this.$config.get(process.env.NODE_ENV+'.API')+'/save_image', post, {
                     headers: {
                         'Authorization': 'Bearer ' + token,
                     },
