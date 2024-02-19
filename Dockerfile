@@ -27,12 +27,13 @@ COPY . .
 RUN yarn install --check-files
 #RUN bundle exec rails assets:precompile
 EXPOSE 3000
+RUN chmod +x /app/entrypoint.sh
+ENTRYPOINT ["/app/entrypoint.sh"]
 CMD ["bundle", "exec", "rails", "s","-b","0.0.0.0","-e","production"]
 #local
 #sudo docker run --name prefeitura_vue -v ~/Documents/docker/db:/app/db -v ~/Documents/docker/db/imagens:/app/public/imagens -p 3000:3000 prefeitura_vue
 #docker
 #sudo docker run --name prefeitura_vue -v ~/db:/app/db -v ~/db/imagens:/app/public/imagens -p 3000:3000 prefeitura_vue
-
 #deploy
 #sudo docker build --rm --tag prefeitura_vue .
 #sudo docker tag prefeitura_vue k43g0n/prefeitura_vue:v_1

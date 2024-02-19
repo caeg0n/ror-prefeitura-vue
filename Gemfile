@@ -10,11 +10,13 @@ gem 'sass-rails', '>= 6'
 gem 'webpacker'
 gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.7'
-# Use Redis adapter to run Action Cable in production
-#gem 'redis', '~> 4.0'
 gem 'bootsnap', '>= 1.4.2', require: false
 #gem 'rails_12factor'
 #gem 'listen'
+#Use Redis adapter to run Action Cable in production
+#gem 'redis', '~> 4.0'
+
+
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
@@ -33,4 +35,4 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+#gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
